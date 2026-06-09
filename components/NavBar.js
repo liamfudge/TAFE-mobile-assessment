@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Switch, TouchableWithoutFeedback, Modal } from 'react-native';
-import { useAppStore } from '../store/AppContext';
 import { MaterialIcons } from '@expo/vector-icons';
+import Slider from '@react-native-community/slider';
 
+import { useAppStore } from '../store/AppContext';
 import { playFeedbackSound } from './audioService';
 
 export default function NavBar({ title, currentScreen, onBack }) {
@@ -39,42 +40,33 @@ export default function NavBar({ title, currentScreen, onBack }) {
               <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
                 <View style={styles.floatingCardMenu}>
                   <Text style={styles.dropdownTitle}>Accessibility Controls</Text>
+
+                  <View style={styles.controlBlock}>
+                    <View style={styles.sliderLabelRow}>
+                      <Text style={styles.controlLabel}>Text Size</Text>
+                    </View>
+                    <br/>
+                    <Slider style={styles.sliderInput} minimumValue={1.0} maximumValue={2} step={0.05} value={textSizeMultiplier} onValueChange={(val) => setTextSizeMultiplier(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
+                  </View>
                   
-                  <View style={styles.controlRow}>
-                    <Text style={styles.controlLabel}>Text Size</Text>
-                    <View style={styles.buttonGroup}>
-                      <TouchableOpacity style={[styles.pill, textSizeMultiplier === 1.0 && styles.activePill]} onPress={() => { setTextSizeMultiplier(1.0); playFeedbackSound(soundEnabled); }}>
-                        <Text style={[styles.pillText, textSizeMultiplier === 1.0 && styles.activeText]}>1.0x</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={[styles.pill, textSizeMultiplier === 1.25 && styles.activePill]} onPress={() => { setTextSizeMultiplier(1.25); playFeedbackSound(soundEnabled); }}>
-                        <Text style={[styles.pillText, textSizeMultiplier === 1.25 && styles.activeText]}>1.2x</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={[styles.pill, textSizeMultiplier === 1.45 && styles.activePill]} onPress={() => { setTextSizeMultiplier(1.45); playFeedbackSound(soundEnabled); }}>
-                        <Text style={[styles.pillText, textSizeMultiplier === 1.45 && styles.activeText]}>1.4x</Text>
-                      </TouchableOpacity>
+                  <br/>
+                  
+                  <View style={styles.controlBlock}>
+                    <View style={styles.sliderLabelRow}>
+                      <Text style={styles.controlLabel}>Brightness</Text>
                     </View>
+                    <br/>
+                    <Slider style={styles.sliderInput} minimumValue={0} maximumValue={1.0} step={0.05} value={appBrightness} onValueChange={(val) => setAppBrightness(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
                   </View>
 
-                  <View style={styles.controlRow}>
-                    <Text style={styles.controlLabel}>Brightness</Text>
-                    <View style={styles.buttonGroup}>
-                      <TouchableOpacity style={[styles.pill, appBrightness === 1.0 && styles.activePill]} onPress={() => { setAppBrightness(1.0); playFeedbackSound(soundEnabled); }}>
-                        <Text style={[styles.pillText, appBrightness === 1.0 && styles.activeText]}>Full</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={[styles.pill, appBrightness === 0.6 && styles.activePill]} onPress={() => { setAppBrightness(0.6); playFeedbackSound(soundEnabled); }}>
-                        <Text style={[styles.pillText, appBrightness === 0.6 && styles.activeText]}>Dim</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
+                  <br/>
 
-                  <View style={styles.controlRow}>
-                    <Text style={styles.controlLabel}>Audio Cues</Text>
+                  <View style={styles.controlBlock}>
+                    <View style={styles.sliderLabelRow}><Text style={styles.controlLabel}>Audio Cues</Text></View>
+                    <br/>
                     <Switch value={soundEnabled} onValueChange={(val) => { setSoundEnabled(val); if(val) console.log("🔈 Audio feedback enabled."); }} />
                   </View>
 
-                  <TouchableOpacity style={styles.closeCardButton} onPress={closeMenu}>
-                    <Text style={styles.closeCardText}>Close Menu</Text>
-                  </TouchableOpacity>
                 </View>
               </TouchableWithoutFeedback>
 

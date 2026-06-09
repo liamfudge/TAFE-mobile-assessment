@@ -27,7 +27,7 @@ export default function DirectoryList({ onNavigate }) {
         )}
       />
 
-      <TouchableOpacity style={styles.fab} onPress={() => onNavigate('FORM', { mode: 'ADD' })} activeOpacity={0.8}>
+      <TouchableOpacity style={styles.fab} onPress={() => { playFeedbackSound(soundEnabled); onNavigate('FORM', { mode: 'ADD' }) }} activeOpacity={0.8}>
         <MaterialIcons name="add" size={28} color="#FFFFFF" />
       </TouchableOpacity>
     </View>
