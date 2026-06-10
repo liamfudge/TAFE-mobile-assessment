@@ -34,7 +34,7 @@ export default function ProfileDetail({ onNavigate, profileId }) {
         </View>
 
         <View style={styles.detailsSection}>
-          <Text style={styles.sectionLabel}>Company Address</Text>
+          <Text style={styles.sectionLabel}>Address</Text>
           <View style={styles.infoRow}>
             <MaterialIcons name="place" size={20} color="#0288D1" style={{ marginRight: 12, marginTop: 2 }} />
             <View style={styles.addressBlock}>

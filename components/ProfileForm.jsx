@@ -116,11 +116,11 @@ export default function ProfileForm({ onNavigate, formState }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollForm}>
-        <Text style={styles.fieldSectionLabel}>Personal Identification</Text>
+        <Text style={styles.fieldSectionLabel}>NAME & CONTACT</Text>
         <TextInput style={styles.input} placeholder="Full Name" value={name} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setName(e) }} />
         <TextInput style={styles.input} placeholder="Phone Number" value={phone} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setPhone(e) }} keyboardType="phone-pad" />
 
-        <Text style={styles.fieldSectionLabel}>Corporate Allocation</Text>
+        <Text style={styles.fieldSectionLabel}>ROLE</Text>
         <View style={styles.pickerWrapper}>
           <Picker selectedValue={departmentId} onValueChange={(itemValue) => { playFeedbackSound(soundEnabled); setDepartmentId(itemValue) }} style={styles.picker}>
             {departments.map((dept) => (
@@ -129,13 +129,13 @@ export default function ProfileForm({ onNavigate, formState }) {
           </Picker>
         </View>
 
-        <Text style={styles.fieldSectionLabel}>Physical Address Configuration</Text>
+        <Text style={styles.fieldSectionLabel}>Address</Text>
         <TextInput style={styles.input} placeholder="Street Address" value={street} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setStreet(e) }} />
         <TextInput style={styles.input} placeholder="City" value={city} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCity(e) }} />
         
         <View style={styles.row}>
           <TextInput style={[styles.input, { flex: 1 }]} placeholder="State (e.g. NSW)" value={state} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setState(e) }} autoCapitalize="characters" />
-          <TextInput style={[styles.input, { flex: 1 }]} placeholder="ZIP Code" value={zip} onChangeText={(e)=>{ playFeedbackSound(soundEnabled);  setZip(e) }} keyboardType="numeric" />
+          <TextInput style={[styles.input, { flex: 1 }]} placeholder="Post Code" value={zip} onChangeText={(e)=>{ playFeedbackSound(soundEnabled);  setZip(e) }} keyboardType="numeric" />
         </View>
         <TextInput style={styles.input} placeholder="Country" value={country} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCountry(e) }} />
 
