@@ -84,9 +84,7 @@ const styles = StyleSheet.create({
   navButton: { paddingVertical: 6, paddingHorizontal: 10, borderRadius: 4 },
   headerTitle: { color: '#FFFFFF', fontWeight: 'bold', textAlign: 'center', flex: 1 },
   emptySlot: { width: 65 },
-  
   modalOverlayBackdrop: { flex: 1, backgroundColor: 'transparent', position: 'relative' },
-  
   floatingCardMenu: {
     position: 'absolute',
     top: 60,
@@ -104,13 +102,5 @@ const styles = StyleSheet.create({
     borderColor: '#E0E0E0',
   },
   dropdownTitle: { fontSize: 11, fontWeight: '700', color: '#0288D1', textTransform: 'uppercase', marginBottom: 12, letterSpacing: 0.5 },
-  controlRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginVertical: 6 },
   controlLabel: { fontSize: 13, color: '#333333', fontWeight: '600' },
-  buttonGroup: { flexDirection: 'row', gap: 4 },
-  pill: { backgroundColor: '#F5F5F5', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 4, borderWidth: 1, borderColor: '#E0E0E0' },
-  activePill: { backgroundColor: '#0288D1', borderColor: '#0288D1' },
-  pillText: { fontSize: 11, fontWeight: '600', color: '#555555' },
-  activeText: { color: '#FFFFFF' },
-  closeCardButton: { marginTop: 14, backgroundColor: '#EEEEEE', padding: 8, borderRadius: 6, alignItems: 'center' },
-  closeCardText: { fontSize: 12, color: '#666666', fontWeight: 'bold' }
 })
