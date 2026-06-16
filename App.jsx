@@ -21,7 +21,7 @@ function MainAppRouter() {
   }
 
   const getScreenTitle = () => {
-    if(isTabletLandscape) return 'Workspace Dashboard';
+    if(isTabletLandscape) return 'Dashboard';
     switch (currentScreen) {
       case 'LIST': return 'Staff Directory';
       case 'DETAIL': return 'Profile Details';
@@ -47,10 +47,7 @@ function MainAppRouter() {
           
           <View style={styles.dualPaneWrapper}>
             <View style={styles.leftPane}>
-              <View style={{borderBottom:'1px solid rgb(200,200,200)'}}>
-                <Text style={[styles.staffProfilesHeader, { fontSize: 16 * textSizeMultiplier }]}>Staff profiles</Text>
-              </View>
-              <DirectoryList onNavigate={navigateTo} />
+              <DirectoryList onNavigate={navigateTo} profileId={navigationParams.id} />
             </View>
             
             <View style={styles.rightPane}>

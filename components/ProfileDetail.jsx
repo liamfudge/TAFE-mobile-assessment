@@ -26,7 +26,7 @@ export default function ProfileDetail({ onNavigate, profileId }) {
         </View>
 
         <View style={styles.detailsSection}>
-          <Text style={styles.sectionLabel}>Contact Details</Text>
+          <Text style={styles.sectionLabel}>Contact</Text>
           <View style={styles.infoRow}>
             <MaterialIcons name="phone" size={20} color="#0288D1" style={{ marginRight: 12, marginTop: 2 }} />
             <Text style={[styles.infoValueText, { fontSize: 15 * textSizeMultiplier }]}>{staff.phone}</Text>
@@ -46,7 +46,7 @@ export default function ProfileDetail({ onNavigate, profileId }) {
         </View>
 
         <TouchableOpacity style={styles.editButton} onPress={() => { playFeedbackSound(soundEnabled); onNavigate('FORM', { mode: 'EDIT', id: staff.id }) }} activeOpacity={0.8}>
-          <Text style={styles.editButtonText}>Edit Profile Details</Text>
+          <Text style={styles.editButtonText}>Edit Profile</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>

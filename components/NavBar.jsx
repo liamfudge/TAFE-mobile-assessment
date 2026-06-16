@@ -56,7 +56,7 @@ export default function NavBar({ title, currentScreen, onBack }) {
                       <Text style={styles.controlLabel}>Brightness</Text>
                     </View>
                     <br/>
-                    <Slider style={styles.sliderInput} minimumValue={0} maximumValue={1.0} step={0.05} value={appBrightness} onValueChange={(val) => setAppBrightness(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
+                    <Slider style={styles.sliderInput} minimumValue={0.1} maximumValue={1.0} step={0.05} value={appBrightness} onValueChange={(val) => setAppBrightness(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
                   </View>
 
                   <br/>

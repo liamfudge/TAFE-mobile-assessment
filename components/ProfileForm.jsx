@@ -62,7 +62,6 @@ export default function ProfileForm({ onNavigate, formState }) {
         trimmedState === originalProfile.address.state &&
         trimmedZip === originalProfile.address.zip &&
         trimmedCountry === originalProfile.address.country;
-
       return hasNoChanges;
     }
     return false;
@@ -116,9 +115,11 @@ export default function ProfileForm({ onNavigate, formState }) {
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollForm}>
-        <Text style={styles.fieldSectionLabel}>NAME & CONTACT</Text>
-        <TextInput style={styles.input} placeholder="Full Name" value={name} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setName(e) }} />
-        <TextInput style={styles.input} placeholder="Phone Number" value={phone} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setPhone(e) }} keyboardType="phone-pad" />
+        <Text style={styles.fieldSectionLabel}>NAME</Text>
+        <TextInput style={styles.input} placeholder="Full Name" placeholderTextColor="#9E9E9E" value={name} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setName(e) }} />
+
+        <Text style={styles.fieldSectionLabel}>PHONE</Text>
+        <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="#9E9E9E" value={phone} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setPhone(e) }} keyboardType="phone-pad" />
 
         <Text style={styles.fieldSectionLabel}>ROLE</Text>
         <View style={styles.pickerWrapper}>
@@ -130,14 +131,14 @@ export default function ProfileForm({ onNavigate, formState }) {
         </View>
 
         <Text style={styles.fieldSectionLabel}>Address</Text>
-        <TextInput style={styles.input} placeholder="Street Address" value={street} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setStreet(e) }} />
-        <TextInput style={styles.input} placeholder="City" value={city} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCity(e) }} />
+        <TextInput style={styles.input} placeholder="Street Address" placeholderTextColor="#9E9E9E" value={street} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setStreet(e) }} />
+        <TextInput style={styles.input} placeholder="City" placeholderTextColor="#9E9E9E" value={city} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCity(e) }} />
         
         <View style={styles.row}>
-          <TextInput style={[styles.input, { flex: 1 }]} placeholder="State (e.g. NSW)" value={state} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setState(e) }} autoCapitalize="characters" />
-          <TextInput style={[styles.input, { flex: 1 }]} placeholder="Post Code" value={zip} onChangeText={(e)=>{ playFeedbackSound(soundEnabled);  setZip(e) }} keyboardType="numeric" />
+          <TextInput style={[styles.input, { flex: 1 }]} placeholder="State (NSW)" placeholderTextColor="#9E9E9E" value={state} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setState(e) }} autoCapitalize="characters" />
+          <TextInput style={[styles.input, { flex: 1 }]} placeholder="Post Code" placeholderTextColor="#9E9E9E" value={zip} onChangeText={(e)=>{ playFeedbackSound(soundEnabled);  setZip(e) }} keyboardType="numeric" />
         </View>
-        <TextInput style={styles.input} placeholder="Country" value={country} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCountry(e) }} />
+        <TextInput style={styles.input} placeholder="Country" placeholderTextColor="#9E9E9E" value={country} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setCountry(e) }} />
 
         <View style={styles.actionRow}>
           <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleExit}>
@@ -145,7 +146,7 @@ export default function ProfileForm({ onNavigate, formState }) {
           </TouchableOpacity>
           
           <TouchableOpacity style={[ styles.button, styles.saveButton, isSaveDisabled && styles.disabledButton ]} onPress={handleSave} disabled={isSaveDisabled} activeOpacity={0.7}>
-            <Text style={styles.saveButtonText}>Save Details</Text>
+            <Text style={styles.saveButtonText}>Save Profile</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -175,7 +176,7 @@ const styles = StyleSheet.create({
   fieldSectionLabel: { fontSize: 11, fontWeight: '700', color: '#0288D1', textTransform: 'uppercase', marginTop: 14, marginBottom: 6, letterSpacing: 0.5 },
   input: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 6, padding: 12, fontSize: 15, color: '#333333', marginBottom: 10 },
   pickerWrapper: { backgroundColor: '#FFFFFF', borderWidth: 1, borderColor: '#E0E0E0', borderRadius: 6, marginBottom: 10, justifyContent: 'center' },
-  picker: { height: 50, width: '100%' },
+  picker: { height: 50, width: '100%', borderRadius: 6, borderColor: '#E0E0E0' },
   row: { flexDirection: 'row', gap: 10 },
   actionRow: { flexDirection: 'row', gap: 12, marginTop: 24, marginBottom: 40 },
   button: { flex: 1, padding: 16, borderRadius: 8, alignItems: 'center', justifyContent: 'center' },
