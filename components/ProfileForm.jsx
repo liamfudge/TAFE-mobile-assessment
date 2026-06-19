@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Modal, Platform, TouchableWithoutFeedback } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -23,6 +23,8 @@ export default function ProfileForm({ onNavigate, formState }) {
   const [ country, setCountry ] = useState('Australia');
 
   const [ isSuccessModalVisible, setIsSuccessModalVisible ] = useState(false);
+
+  const [ isIosPickerVisible, setIsIosPickerVisible ] = useState(false);
 
   useEffect(() => {
     if(isEditMode && targetId){
@@ -122,13 +124,51 @@ export default function ProfileForm({ onNavigate, formState }) {
         <TextInput style={styles.input} placeholder="Phone Number" placeholderTextColor="#9E9E9E" value={phone} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setPhone(e) }} keyboardType="phone-pad" />
 
         <Text style={styles.fieldSectionLabel}>ROLE</Text>
-        <View style={styles.pickerWrapper}>
-          <Picker selectedValue={departmentId} onValueChange={(itemValue) => { playFeedbackSound(soundEnabled); setDepartmentId(itemValue) }} style={styles.picker}>
-            {departments.map((dept) => (
-              <Picker.Item key={dept.id} label={dept.name} value={dept.id} />
-            ))}
-          </Picker>
-        </View>
+        {Platform.OS === 'ios' ? (
+          <View>
+            <TouchableOpacity style={styles.input} onPress={() => { playFeedbackSound(soundEnabled); setIsIosPickerVisible(true); }} activeOpacity={0.7}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                <Text style={{ color: '#333333', fontSize: 15 }}>
+                  {departments.find(d => d.id === parseInt(departmentId, 10))?.name || "Select Role"}
+                </Text>
+                <MaterialIcons name="arrow-drop-down" size={24} color="#0288D1" />
+              </View>
+            </TouchableOpacity>
+
+            {/* modal for selecting an option on iOS */}
+            <Modal visible={isIosPickerVisible} transparent={true} animationType="fade">
+              <TouchableWithoutFeedback onPress={() => {setIsIosPickerVisible(false)}}>
+                <View style={styles.modalOverlay}>
+                  <View style={[styles.modalCard, { maxWidth: 300, padding: 16 }]}>
+                    <Text style={[styles.modalTitle, { fontSize: 16, color: '#0288D1', marginBottom: 14 }]}>
+                      Select Department Role
+                    </Text>
+                    
+                    {departments.map((dept) => {
+                      const isSelected = parseInt(departmentId, 10) === dept.id;
+                      return (
+                        <TouchableOpacity key={dept.id} style={[styles.iosSelector,{backgroundColor: isSelected ? '#E1F5FE' : 'transparent', }]} onPress={() => { playFeedbackSound(soundEnabled); setDepartmentId(dept.id); setIsIosPickerVisible(false); }}>
+                          <Text style={{fontSize: 14, fontWeight: isSelected ? '700' : '500',color: isSelected ? '#0288D1' : '#333333' }}>
+                            {dept.name}
+                          </Text>
+                          {isSelected && <MaterialIcons name="check" size={18} color="#0288D1" />}
+                        </TouchableOpacity>
+                      );
+                    })}
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
+          </View>
+        ) : (
+          <View style={styles.pickerWrapper}>
+            <Picker selectedValue={departmentId} onValueChange={(itemValue) => { playFeedbackSound(soundEnabled); setDepartmentId(itemValue); }} style={styles.picker}>
+              {departments.map((dept) => (
+                <Picker.Item key={dept.id} label={dept.name} value={dept.id} />
+              ))}
+            </Picker>
+          </View>
+        )}
 
         <Text style={styles.fieldSectionLabel}>Address</Text>
         <TextInput style={styles.input} placeholder="Street Address" placeholderTextColor="#9E9E9E" value={street} onChangeText={(e)=>{ playFeedbackSound(soundEnabled); setStreet(e) }} />
@@ -155,9 +195,9 @@ export default function ProfileForm({ onNavigate, formState }) {
       <Modal animationType="fade" transparent={true} visible={isSuccessModalVisible} onRequestClose={handleModalClose}>
         <View style={styles.modalOverlay}>
           <View style={styles.modalCard}>
-            <div style={styles.successIconCircle}>
+            <View style={styles.successIconCircle}>
               <MaterialIcons name="check" size={24} color="#4CAF50" />
-            </div>
+            </View>
             <Text style={styles.modalTitle}>Action Successful</Text>
             <Text style={styles.modalBodyText}>The staff contact record has been successfully written and persisted to memory storage.</Text>
             <TouchableOpacity style={styles.modalButton} onPress={handleModalClose}>
@@ -191,5 +231,6 @@ const styles = StyleSheet.create({
   modalTitle: { fontSize: 20, fontWeight: 'bold', color: '#212121', marginBottom: 8 },
   modalBodyText: { fontSize: 14, color: '#666666', textAlign: 'center', marginBottom: 24, lineHeight: 20 },
   modalButton: { backgroundColor: '#0288D1', paddingVertical: 12, paddingHorizontal: 32, borderRadius: 6, width: '100%', alignItems: 'center' },
-  modalButtonText: { color: '#FFFFFF', fontWeight: 'bold', fontSize: 15 }
+  modalButtonText: { color: '#FFFFFF', fontWeight: 'bold', fontSize: 15 },
+  iosSelector: {width: '100%',paddingVertical: 12, paddingHorizontal: 10, borderRadius: 6, flexDirection: 'row', justifyContent: 'space-between',alignItems: 'center', marginBottom: 4}
 })

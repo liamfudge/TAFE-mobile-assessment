@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Switch, TouchableWithoutFeedback, Modal } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Switch, TouchableWithoutFeedback, Modal, Platform } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import Slider from '@react-native-community/slider';
 
 import { useAppStore } from '../store/AppContext';
 import { playFeedbackSound } from './audioService';
@@ -37,7 +36,7 @@ export default function NavBar({ title, currentScreen, onBack }) {
           <TouchableWithoutFeedback onPress={closeMenu}>
             <View style={styles.modalOverlayBackdrop}>
 
-              <TouchableWithoutFeedback onPress={(e) => e.stopPropagation()}>
+              <TouchableWithoutFeedback onPress={(e) => {e.stopPropagation()}}>
                 <View style={styles.floatingCardMenu}>
                   <Text style={styles.dropdownTitle}>Accessibility Controls</Text>
 
@@ -45,25 +44,49 @@ export default function NavBar({ title, currentScreen, onBack }) {
                     <View style={styles.sliderLabelRow}>
                       <Text style={styles.controlLabel}>Text Size</Text>
                     </View>
-                    <br/>
-                    <Slider style={styles.sliderInput} minimumValue={1.0} maximumValue={2} step={0.05} value={textSizeMultiplier} onValueChange={(val) => setTextSizeMultiplier(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
+
+                    {Platform.OS === 'web'
+                      ? <input type="range" min={1} max={2} step={0.05} value={textSizeMultiplier} onChange={(e) => setTextSizeMultiplier(e.target.value)} onMouseUp={()=>{ playFeedbackSound(soundEnabled)}} style={{ width: '100%', height: '40px', cursor: 'pointer', accentColor: '#0288D1' }} />
+                      : <View style={styles.stepperContainer}>
+                        <TouchableOpacity style={styles.stepButton} onPress={() => { if(textSizeMultiplier > 1.0) setTextSizeMultiplier(textSizeMultiplier - 0.05); playFeedbackSound(soundEnabled); }}>
+                          <Text style={styles.stepButtonText}>-</Text>
+                        </TouchableOpacity>
+                        <Text style={styles.stepperValueText}>Tap to Scale</Text>
+                        <TouchableOpacity style={styles.stepButton} onPress={() => { if(textSizeMultiplier < 1.5) setTextSizeMultiplier(textSizeMultiplier + 0.05); playFeedbackSound(soundEnabled); }}>
+                          <Text style={styles.stepButtonText}>+</Text>
+                        </TouchableOpacity>
+                      </View>
+                    }
+
                   </View>
                   
-                  <br/>
+                  {/*<br/>*/}
                   
                   <View style={styles.controlBlock}>
                     <View style={styles.sliderLabelRow}>
                       <Text style={styles.controlLabel}>Brightness</Text>
                     </View>
-                    <br/>
-                    <Slider style={styles.sliderInput} minimumValue={0.1} maximumValue={1.0} step={0.05} value={appBrightness} onValueChange={(val) => setAppBrightness(val)} onSlidingComplete={() => playFeedbackSound(soundEnabled)} minimumTrackTintColor="#0288D1" maximumTrackTintColor="#E0E0E0" thumbTintColor="#0288D1" />
+
+                    {
+                      Platform.OS === 'web'
+                        ? <input type="range" min={0.1} max={1} step={0.05} value={appBrightness} onChange={(e) => {setAppBrightness(e.target.value)}} onMouseUp={() => playFeedbackSound(soundEnabled)} style={{ width: '100%', height: '40px', cursor: 'pointer', accentColor: '#0288D1' }} />
+                        : <View style={styles.stepperContainer}>
+                          <TouchableOpacity style={styles.stepButton} onPress={() => { if(appBrightness > 0.4) setAppBrightness(appBrightness - 0.05); playFeedbackSound(soundEnabled); }}>
+                            <Text style={styles.stepButtonText}>-</Text>
+                          </TouchableOpacity>
+                          <Text style={styles.stepperValueText}>Adjust Intensity</Text>
+                          <TouchableOpacity style={styles.stepButton} onPress={() => { if(appBrightness < 1.0) setAppBrightness(appBrightness + 0.05); playFeedbackSound(soundEnabled); }}>
+                            <Text style={styles.stepButtonText}>+</Text>
+                          </TouchableOpacity>
+                        </View>
+                    }
                   </View>
 
-                  <br/>
+                  {/*<br/>*/}
 
                   <View style={styles.controlBlock}>
                     <View style={styles.sliderLabelRow}><Text style={styles.controlLabel}>Audio Cues</Text></View>
-                    <br/>
+                    {/*<br/>*/}
                     <Switch value={soundEnabled} onValueChange={(val) => { setSoundEnabled(val); if(val) console.log("🔈 Audio feedback enabled."); }} />
                   </View>
 
@@ -103,4 +126,32 @@ const styles = StyleSheet.create({
   },
   dropdownTitle: { fontSize: 11, fontWeight: '700', color: '#0288D1', textTransform: 'uppercase', marginBottom: 12, letterSpacing: 0.5 },
   controlLabel: { fontSize: 13, color: '#333333', fontWeight: '600' },
+
+  stepperContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#F5F5F5',
+    borderRadius: 6,
+    padding: 4,
+    marginTop: 6
+  },
+  stepButton: {
+    backgroundColor: '#0288D1',
+    width: 44,
+    height: 36,
+    borderRadius: 4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  stepButtonText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    fontWeight: 'bold'
+  },
+  stepperValueText: {
+    fontSize: 12,
+    color: '#666666',
+    fontWeight: '600'
+  }
 })

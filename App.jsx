@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   rightPane: { flex: 1, backgroundColor: '#FAFAFA' },
   emptyStateContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 40 },
   emptyStateText: { fontSize: 16, color: '#9E9E9E', textAlign: 'center', lineHeight: 22, fontWeight: '500' },
-  staffProfilesHeader: {fontSize:16,textAlign:'center',padding:8,fontWeight:'bold'},
 });
 
 
